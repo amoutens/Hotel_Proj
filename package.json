@@ -8,5 +8,11 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.76.0"
+  },
+  "dependencies": {
+    "react-router-dom": "^6.23.0"
+  }
 }
