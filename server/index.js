@@ -21,6 +21,12 @@ app.get('/', async (req, res) => {
     return res.json({Rooms: rooms, Clients: clients, Payments: payments, Settlements: settlements});
 })
 
+app.post('/createClient', (req, res) => {
+    clientsModel.create(req.body)
+    .then(clients => res.json(clients))
+    .catch(err => res.json(err))
+})
+
 // app.get('/collections', async (req, res) => {
 //     try {
 //       const collections = await mongoose.connection.db.listCollections().toArray();

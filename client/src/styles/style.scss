@@ -1,4 +1,10 @@
-
+@import './mainPage.scss', './clients.scss';
+body {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal
+}
 .navbar-container {
     background-color: rgb(36, 38, 53);
     position: absolute;
@@ -34,4 +40,6 @@
         background-color: darken(rgb(36, 38, 53), 10%);
     }
 }
+
+
 

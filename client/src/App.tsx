@@ -9,13 +9,18 @@ import {Settlements} from './pages/Settlements';
 import NotF from './pages/ffff'; // Removed .tsx extension
 import {Route} from './Components/Route'
 
-
+ export interface Client {
+  _id: string,
+  name: string,
+  passport: string,
+  phone: string
+}
 
 function App() {
   const [roomsDB, setRoomsDB] = useState([]);
-  const [clientsDB, setClientsDB] = useState([]);
-  const [paymentDB, setPaymentDB] = useState([]); // Changed variable name to camelCase
-  const [settlementDB, setSettlementDB] = useState([]); // Changed variable name to camelCase
+  const [clientsDB, setClientsDB] = useState<Client[]>([]);
+  const [paymentDB, setPaymentDB] = useState([]); 
+  const [settlementDB, setSettlementDB] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,38 +30,14 @@ function App() {
       setClientsDB(data.Clients);
       setPaymentDB(data.Payments);
       setSettlementDB(data.Settlements);
+      
     };
     fetchData();
   }, []);
-
-  const routes = [
-    {
-      path: '/',
-      element: <Main />
-    },
-    {
-      path: '/clients',
-      element: <Clients />
-    },
-    {
-      path: '/rooms',
-      element: <Rooms />
-    },
-    {
-      path: '/payments',
-      element: <Payments />
-    },
-    {
-      path: '/settlements',
-      element: <Settlements />
-    },
-    {
-      path: '*',
-      element: <NotF />
-    }
-  ];
+  console.log(clientsDB);
   return (
     <>
+
       <div className='navbar-container'>
         <NavButton href='/' label={"Головна"} />
         <NavButton href='/clients' label={"Клієнти"} />
@@ -69,7 +50,7 @@ function App() {
         <Main/>
       </Route>
       <Route path="/clients">
-        <Clients />
+        <Clients clientDB={clientsDB}/>
       </Route>
       <Route path="/rooms">
         <Rooms />
