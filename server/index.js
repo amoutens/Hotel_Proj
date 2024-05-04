@@ -21,6 +21,14 @@ app.get('/', async (req, res) => {
     return res.json({Rooms: rooms, Clients: clients, Payments: payments, Settlements: settlements});
 })
 
+app.get('/getClient/:id', (req, res) => {
+    const id = req.params.id;
+    clientsModel.findById({id})
+    .then(clients => res.json(clients))
+    .catch(err => res.json(err))
+}
+) 
+
 app.post('/createClient', (req, res) => {
     clientsModel.create(req.body)
     .then(clients => res.json(clients))
