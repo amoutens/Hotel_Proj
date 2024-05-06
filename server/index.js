@@ -21,13 +21,28 @@ app.get('/', async (req, res) => {
     return res.json({Rooms: rooms, Clients: clients, Payments: payments, Settlements: settlements});
 })
 
-app.get('/getClient/:id', (req, res) => {
-    const id = req.params.id;
-    clientsModel.findById({id})
-    .then(clients => res.json(clients))
-    .catch(err => res.json(err))
-}
-) 
+// app.get('/getClient/:id', (req, res) => {
+//     const id = req.params.id;
+//     clientsModel.findOne({_id: id})
+//     .then(client => res.json(client))
+//     .catch(err => res.status(500).json({ error: err.message }));
+// });
+app.get('/getClient/:id', async (req, res) => {
+    try {
+        const id = req.params.id;у
+        const client = await clientsModel.findById(id);
+        if (!client) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
+        res.json(client);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+
+
 
 app.post('/createClient', (req, res) => {
     clientsModel.create(req.body)

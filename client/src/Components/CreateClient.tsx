@@ -6,11 +6,10 @@ import { Client } from '../App';
 
 type CreateClientProps = {
     clientDB: Client[];
-    setClientIdApp: (w: string) => void,
-    clientIdApp: string
+    handleEditClick: (clientId: string, event: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-export const CreateClient = ({clientDB, setClientIdApp, clientIdApp}: CreateClientProps)  => {
+export const CreateClient = ({clientDB, handleEditClick}: CreateClientProps)  => {
 const [name, setName] = React.useState('');
 const [phone, setPhone] = React.useState('');
 const [passport, setPassport] = React.useState('');
@@ -23,6 +22,7 @@ const [passport, setPassport] = React.useState('');
     setName('');
     setPhone('');
     setPassport('');
+    // window.location.href = '/client';
   })
   .catch(err => console.log(err));
   }
@@ -38,7 +38,7 @@ const [passport, setPassport] = React.useState('');
           <input type="text" placeholder="Введіть номер паспорту" value={passport} onChange={(e) => setPassport(e.target.value)} />
           <button type="submit"><a href='/clients'>Додати</a></button>
           <Route path='/clients'>
-            <Clients clientDB={clientDB} setClientIdApp={setClientIdApp} clientIdApp={clientIdApp}/>
+            <Clients clientDB={clientDB} handleEditClick={handleEditClick} />
           </Route>
         </form>
        

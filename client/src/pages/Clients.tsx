@@ -2,44 +2,12 @@ import { Client } from "../App"
 import React from "react"
 import { Route } from "../Components/Route"
 import { CreateClient } from "../Components/CreateClient"
-import { UpdateClient } from "../Components/UpdateClient"
-import { useClientState } from "../Components/UseClientState"
 type ClientProps = {
   clientDB: Client[],
-  setClientIdApp: (w: string) => void,
-  clientIdApp: string
+  handleEditClick: (clientId: string, event: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-export const Clients = ({ clientDB, setClientIdApp, clientIdApp }: ClientProps) => {
-  const { selectedClient, setSelectedClient } = useClientState();
-  // const [currentClient, setCurrentClient] = React.useState <Client>({
-  //   _id:'',
-  //   name:'',
-  //   phone:'',
-  //   passport: ''
-  // })
-  let currentClient: Client = {
-    _id: '',
-    name: '',
-    phone: '',
-    passport: ''
-  };
-  
-  const handleEditClick = (clientId: string) => {
-    currentClient = clientDB.find(el => el._id === clientId) || {_id:'', name: '', phone: '', passport: '' };
-    setSelectedClient(currentClient);
-    setClientIdApp(clientId);
-  };
-
-  React.useEffect(() => {
-    if(clientIdApp !== '') {
-      currentClient = clientDB.find(el => el._id === clientIdApp) || {_id:'', name: '', phone: '', passport: '' };
-      setSelectedClient(currentClient);
-    }
-  }, [clientIdApp, clientDB]);
-  console.log("selectedClient:", selectedClient);
-  console.log('clientIdApp', clientIdApp);
-  console.log(currentClient)
+export const Clients = ({ clientDB, handleEditClick  }: ClientProps) => {
   return (
     <>
       <div className="client-main-container">
@@ -59,10 +27,11 @@ export const Clients = ({ clientDB, setClientIdApp, clientIdApp }: ClientProps) 
                 <td>{client.phone}</td>
                 <td>{client.passport}</td>
                 <td>
-                  <button onClick={() => handleEditClick(client._id)}> 
-                  <a href="/updateClient">Редагувати</a></button>
-                  <button onClick={() => handleEditClick(client._id)}>Редагувати</button>
+                <a href={`/updateClient?clientId=${client._id}`} onClick={(e) => handleEditClick(client._id, e)}> 
+                  Редагувати
+                </a>
                   <button>Видалити</button>
+                  
                 </td>
               </tr>
             )) : null
@@ -71,10 +40,7 @@ export const Clients = ({ clientDB, setClientIdApp, clientIdApp }: ClientProps) 
         </table>
         <a href='/createClient'>Додати нового клієнта</a>
         <Route path='/createClient'>
-          <CreateClient clientDB={clientDB} setClientIdApp={setClientIdApp} clientIdApp={clientIdApp} />
-        </Route>
-        <Route path='/updateClient'>
-          <UpdateClient clientDB={clientDB} currentClient={currentClient} clientId={clientIdApp} setClientIdApp={setClientIdApp} />
+          <CreateClient clientDB={clientDB} handleEditClick={handleEditClick} />
         </Route>
 
       </div>
