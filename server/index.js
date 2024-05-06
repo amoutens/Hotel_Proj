@@ -29,7 +29,7 @@ app.get('/', async (req, res) => {
 // });
 app.get('/getClient/:id', async (req, res) => {
     try {
-        const id = req.params.id;у
+        const id = req.params.id;
         const client = await clientsModel.findById(id);
         if (!client) {
             return res.status(404).json({ message: 'Client not found' });
@@ -41,7 +41,22 @@ app.get('/getClient/:id', async (req, res) => {
     }
 });
 
-
+app.put('/updateClient/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const client = await clientsModel.findByIdAndUpdate(id, 
+            {name: req.body.name,
+                 phone:req.body.phone,
+                 passport:req.body.passport});
+        if (!client) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
+        res.json(client);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+})
 
 
 app.post('/createClient', (req, res) => {

@@ -49,20 +49,17 @@ React.useEffect(() => {
     
   }, [clientGetData]);
 
-  const handleSubmit = (event: React.SyntheticEvent) : void => {
+  const handleUpdate = (event: React.SyntheticEvent) : void => {
     event.preventDefault();
-    axios.post('http://localhost:3000/updateClient', { name, phone, passport })
+    axios.put(`http://localhost:3000/updateClient/${clientGetData._id}`, { name, phone, passport })
     .then(result => { 
     console.log(result);
-    setName('');
-    setPhone('');
-    setPassport('');
   })
   .catch(err => console.log(err));
   }
   return (
     <>
-    <form style={{width: '100vw', height: '100vh'}} onSubmit={(e) => handleSubmit(e)}>
+    <form style={{width: '100vw', height: '100vh'}} onSubmit={(e) => handleUpdate(e)}>
           <h2>Редагувати клієнта</h2>
           <label htmlFor="">Ім'я</label>
           <input type="text" placeholder="Введіть ім'я" value={name} onChange={(e) => setName(e.target.value)} />
@@ -70,10 +67,11 @@ React.useEffect(() => {
           <input type="text" placeholder="Введіть номер телефону" value={phone} onChange={(e) => setPhone(e.target.value)} />
           <label htmlFor="">Номер паспорту</label>
           <input type="text" placeholder="Введіть номер паспорту" value={passport} onChange={(e) => setPassport(e.target.value)} />
-          <button type="submit"><a href='/clients'>Додати</a></button>
+          {/* <button type="submit"><a href='/clients'>Редагувати</a></button>
           <Route path='/clients'>
             <Clients clientDB={clientDB} handleEditClick={handleEditClick}/>
-          </Route>
+          </Route> */}
+          <button type='submit'>Редагувати</button>
         </form>
        
         </>
