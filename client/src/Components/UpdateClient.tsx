@@ -1,24 +1,19 @@
 import React from 'react'
 import axios from 'axios';
-import { Route } from './Route';
-import { Clients } from '../pages/Clients';
 import { Client } from '../App';
 
-type UpdateClientProps = {
-    clientDB: Client[],
-    handleEditClick: (clientId: string, event: React.MouseEvent<HTMLAnchorElement>) => void
-}
+// type UpdateClientProps = {
+//     clientDB: Client[],
+//     handleEditClick: (clientId: string, event: React.MouseEvent<HTMLAnchorElement>) => void
+// }
 
-export const UpdateClient = ({clientDB, handleEditClick}: UpdateClientProps) => {
+export const UpdateClient = () => {
   const [clientGetData, setClientGetData] = React.useState<Client>({
     _id:'',
     name:'',
     phone:'',
     passport: ''
   });
-
-
-
 React.useEffect(() => {
   const urlParams = new URLSearchParams(window.location.search);
     const clientIdd = urlParams.get('clientId');
@@ -54,6 +49,7 @@ React.useEffect(() => {
     axios.put(`http://localhost:3000/updateClient/${clientGetData._id}`, { name, phone, passport })
     .then(result => { 
     console.log(result);
+    window.location.href='/clients';
   })
   .catch(err => console.log(err));
   }
@@ -67,10 +63,6 @@ React.useEffect(() => {
           <input type="text" placeholder="Введіть номер телефону" value={phone} onChange={(e) => setPhone(e.target.value)} />
           <label htmlFor="">Номер паспорту</label>
           <input type="text" placeholder="Введіть номер паспорту" value={passport} onChange={(e) => setPassport(e.target.value)} />
-          {/* <button type="submit"><a href='/clients'>Редагувати</a></button>
-          <Route path='/clients'>
-            <Clients clientDB={clientDB} handleEditClick={handleEditClick}/>
-          </Route> */}
           <button type='submit'>Редагувати</button>
         </form>
        

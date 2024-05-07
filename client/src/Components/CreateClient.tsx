@@ -1,15 +1,12 @@
 import React from 'react'
 import axios from 'axios';
-import { Route } from './Route';
-import { Clients } from '../pages/Clients';
-import { Client } from '../App';
 
-type CreateClientProps = {
-    clientDB: Client[];
-    handleEditClick: (clientId: string, event: React.MouseEvent<HTMLAnchorElement>) => void;
-}
+// type CreateClientProps = {
+//     clientDB: Client[];
+//     handleEditClick: (clientId: string, event: React.MouseEvent<HTMLAnchorElement>) => void;
+// }
 
-export const CreateClient = ({clientDB, handleEditClick}: CreateClientProps)  => {
+export const CreateClient = ()  => {
 const [name, setName] = React.useState('');
 const [phone, setPhone] = React.useState('');
 const [passport, setPassport] = React.useState('');
@@ -22,7 +19,7 @@ const [passport, setPassport] = React.useState('');
     setName('');
     setPhone('');
     setPassport('');
-    // window.location.href = '/client';
+     window.location.href = '/clients';
   })
   .catch(err => console.log(err));
   }
@@ -36,10 +33,7 @@ const [passport, setPassport] = React.useState('');
           <input type="text" placeholder="Введіть номер телефону" value={phone} onChange={(e) => setPhone(e.target.value)} />
           <label htmlFor="">Номер паспорту</label>
           <input type="text" placeholder="Введіть номер паспорту" value={passport} onChange={(e) => setPassport(e.target.value)} />
-          <button type="submit"><a href='/clients'>Додати</a></button>
-          <Route path='/clients'>
-            <Clients clientDB={clientDB} handleEditClick={handleEditClick} />
-          </Route>
+          <button type='submit'>Додати</button>
         </form>
        
         </>

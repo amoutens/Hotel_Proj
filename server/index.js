@@ -8,6 +8,7 @@ const clientsModel = require('./models/Clients.js')
 const paymentModel = require('./models/Settlements.js')
 const settlementsModel = require('./models/Settlements.js');
 
+
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -21,12 +22,6 @@ app.get('/', async (req, res) => {
     return res.json({Rooms: rooms, Clients: clients, Payments: payments, Settlements: settlements});
 })
 
-// app.get('/getClient/:id', (req, res) => {
-//     const id = req.params.id;
-//     clientsModel.findOne({_id: id})
-//     .then(client => res.json(client))
-//     .catch(err => res.status(500).json({ error: err.message }));
-// });
 app.get('/getClient/:id', async (req, res) => {
     try {
         const id = req.params.id;
@@ -58,6 +53,19 @@ app.put('/updateClient/:id', async (req, res) => {
     }
 })
 
+app.delete('/deleteClient/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const client = await clientsModel.findByIdAndDelete(id);
+        if (!client) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
+        res.json(client);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 
 app.post('/createClient', (req, res) => {
     clientsModel.create(req.body)
@@ -65,6 +73,55 @@ app.post('/createClient', (req, res) => {
     .catch(err => res.json(err))
 })
 
+app.post('/createRoom', (req, res) => {
+    roomModel.create(req.body)
+    .then(roms => res.json(rooms))
+    .catch(err => res.json(err))
+})
+app.get('/getRoom/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const room = await roomModel.findById(id);
+        if (!room) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
+        res.json(room);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+app.put('/updateRoom/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const room = await roomModel.findByIdAndUpdate(id, 
+            {room_number: req.body.room_number,
+                 capacity:req.body.capacity,
+                 comfort_level:req.body.comfort_level,
+                price: req.body.price});
+        if (!room) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
+        res.json(room);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+})
+app.delete('/deleteRoom/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const room = await roomModel.findByIdAndDelete(id);
+        if (!room) {
+            return res.status(404).json({ message: 'Room not found' });
+        }
+        res.json(room);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 // app.get('/collections', async (req, res) => {
 //     try {
 //       const collections = await mongoose.connection.db.listCollections().toArray();

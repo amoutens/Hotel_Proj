@@ -9,15 +9,25 @@ import {Settlements} from './pages/Settlements';
 import {Route} from './Components/Route'
 import { CreateClient } from './Components/CreateClient';
 import { UpdateClient } from './Components/UpdateClient';
+import { CreateRoom } from './Components/roomCRUD/CreateRoom';
+import { UpdateRoom } from './Components/roomCRUD/UpdateRoom';
+
  export interface Client {
   _id: string,
   name: string,
   passport: string,
   phone: string
 }
+export interface Room {
+  _id: string,
+  room_number: string,
+  capacity: number,
+  comfort_level: string,
+  price: number
+}
 
 function App() {
-  const [roomsDB, setRoomsDB] = React.useState([]);
+  const [roomsDB, setRoomsDB] = React.useState<Room[]>([]);
   const [clientsDB, setClientsDB] = React.useState<Client[]>([]);
   const [paymentDB, setPaymentDB] = React.useState([]); 
   const [settlementDB, setSettlementDB] = React.useState([]);
@@ -37,13 +47,24 @@ function App() {
 
 const handleEditClick = async (clientId: string, event: React.MouseEvent<HTMLAnchorElement>) => {
   event.preventDefault();
-  setIsClientBtnUpdate(true);
   try {
     const res = await fetch(`http://localhost:3000/getClient/${clientId}`);
     if (!res.ok) {
       throw new Error('Failed to fetch client data');
     }
     window.location.href = `/updateClient?clientId=${clientId}`;
+  } catch (error) {
+    console.error('Error fetching client data:', error);
+  }
+};
+const handleEditClickRoom = async (roomId: string, event: React.MouseEvent<HTMLAnchorElement>) => {
+  event.preventDefault();
+  try {
+    const res = await fetch(`http://localhost:3000/getRoom/${roomId}`);
+    if (!res.ok) {
+      throw new Error('Failed to fetch client data');
+    }
+    window.location.href = `/updateRoom?roomId=${roomId}`;
   } catch (error) {
     console.error('Error fetching client data:', error);
   }
@@ -74,28 +95,36 @@ const handleEditClick = async (clientId: string, event: React.MouseEvent<HTMLAnc
       <Route path="/">
         <Main/>
       </Route>
+
       <Route path="/clients">
         <Clients clientDB={clientsDB} handleEditClick={handleEditClick}/>
       </Route>
-      <Route path="/rooms">
-        <Rooms />
+      <Route path='/createClient'>
+        <CreateClient/>
       </Route>
+      <Route path={`/updateClient`}>
+      <UpdateClient/>
+      </Route>
+
+      <Route path="/rooms">
+        <Rooms roomsDB={roomsDB} handleEditClickRoom={handleEditClickRoom} />
+      </Route>
+      <Route path='/createRoom'>
+        <CreateRoom/>
+      </Route>
+      <Route path='/updateRoom'>
+        <UpdateRoom/>
+      </Route>
+
+
       <Route path="/settlements">
         <Settlements />
       </Route>
       <Route path="/payments">
         <Payments />
       </Route>
-      <Route path='/createClient'>
-        <CreateClient clientDB={clientsDB} handleEditClick={handleEditClick}/>
-      </Route>
+      
 
-      <Route path={`/updateClient`}>
-      <UpdateClient
-          clientDB={clientsDB}
-          handleEditClick={handleEditClick}
-      />
-      </Route>
       </div>
       
     </>
