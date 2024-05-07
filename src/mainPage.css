@@ -1,0 +1,10 @@
+.mainP-container {
+  text-align: left;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+}
+
+.mainP-container > p {
+  font-size: larger;
+}

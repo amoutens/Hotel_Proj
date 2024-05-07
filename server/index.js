@@ -5,7 +5,7 @@ const cors = require('cors');
 const mongoose  = require('mongoose');
 const roomModel = require('./models/Rooms.js')
 const clientsModel = require('./models/Clients.js')
-const paymentModel = require('./models/Settlements.js')
+const paymentModel = require('./models/Payment.js')
 const settlementsModel = require('./models/Settlements.js');
 
 
@@ -15,12 +15,17 @@ app.use(cors());
 connectDB();
 
 app.get('/', async (req, res) => {
-    const rooms = await roomModel.find();
-    const clients = await clientsModel.find();
+    let rooms = await roomModel.find().lean();
+    rooms.forEach(room => {
+        room.room_number = parseInt(room.room_number);
+    });
+    rooms.sort((a, b) => a.room_number - b.room_number);
+    const clients = await clientsModel.find().sort({ name: 1 });
     const payments = await paymentModel.find();
-    const settlements = await settlementsModel.find();
-    return res.json({Rooms: rooms, Clients: clients, Payments: payments, Settlements: settlements});
+    const settlements = await settlementsModel.find().sort({check_in_date:1});
+    return res.json({ Rooms: rooms, Clients: clients, Payments: payments, Settlements: settlements });
 })
+
 
 app.get('/getClient/:id', async (req, res) => {
     try {
@@ -75,7 +80,7 @@ app.post('/createClient', (req, res) => {
 
 app.post('/createRoom', (req, res) => {
     roomModel.create(req.body)
-    .then(roms => res.json(rooms))
+    .then(rooms => res.json(rooms))
     .catch(err => res.json(err))
 })
 app.get('/getRoom/:id', async (req, res) => {
@@ -122,6 +127,25 @@ app.delete('/deleteRoom/:id', async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });
+
+app.delete('/deleteSettlement/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const settl = await settlementsModel.findByIdAndDelete(id);
+        if (!settl) {
+            return res.status(404).json({ message: 'Settlement not found' });
+        }
+        res.json(settl);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+app.post('/createSettlement', (req, res) => {
+    settlementsModel.create(req.body)
+    .then(settl => res.json(settl))
+    .catch(err => res.json(err))
+})
 // app.get('/collections', async (req, res) => {
 //     try {
 //       const collections = await mongoose.connection.db.listCollections().toArray();

@@ -11,6 +11,7 @@ import { CreateClient } from './Components/CreateClient';
 import { UpdateClient } from './Components/UpdateClient';
 import { CreateRoom } from './Components/roomCRUD/CreateRoom';
 import { UpdateRoom } from './Components/roomCRUD/UpdateRoom';
+import { CreateSettlement } from './Components/settlementCRUD/CreateSettlement';
 
  export interface Client {
   _id: string,
@@ -25,25 +26,27 @@ export interface Room {
   comfort_level: string,
   price: number
 }
-
+export interface Settlement {
+  _id:string,
+  client_id: string,
+  payment_id: string,
+  room_id: string,
+  check_in_date: string,
+  check_out_date: string
+}
+export interface Payment {
+  _id:string,
+  client_id: string,
+  settlement_id: string,
+  amount: number,
+  payment_date:string
+}
 function App() {
   const [roomsDB, setRoomsDB] = React.useState<Room[]>([]);
   const [clientsDB, setClientsDB] = React.useState<Client[]>([]);
-  const [paymentDB, setPaymentDB] = React.useState([]); 
-  const [settlementDB, setSettlementDB] = React.useState([]);
-  const [clientIdApp, setClientIdApp] = React.useState<string>('');
-  const [currIdClient, setCurrIdClient] = React.useState<string>('');
-  const [isClientBtnUpdate, setIsClientBtnUpdate] = React.useState<boolean>(false);
-  const idArr: string[] = [];
-  const [currCl, setCurrCl] = React.useState<Client>(
-    {
-      _id:'',
-      name:'',
-      phone:'',
-      passport: ''
-    }
-  );
-  
+  const [paymentDB, setPaymentDB] = React.useState<Payment[]>([]); 
+  const [settlementDB, setSettlementDB] = React.useState<Settlement[]>([]);
+  const [data, setData] = React.useState([]);
 
 const handleEditClick = async (clientId: string, event: React.MouseEvent<HTMLAnchorElement>) => {
   event.preventDefault();
@@ -69,11 +72,11 @@ const handleEditClickRoom = async (roomId: string, event: React.MouseEvent<HTMLA
     console.error('Error fetching client data:', error);
   }
 };
-
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch('http://localhost:3000/');
       const data = await res.json();
+      setData(data);
       setRoomsDB(data.Rooms);
       setClientsDB(data.Clients);
       setPaymentDB(data.Payments);
@@ -81,7 +84,6 @@ const handleEditClickRoom = async (roomId: string, event: React.MouseEvent<HTMLA
     };
     fetchData();
   }, []);
-
   return (
     <>
       <div className='navbar-container'>
@@ -94,7 +96,7 @@ const handleEditClickRoom = async (roomId: string, event: React.MouseEvent<HTMLA
       <div className='main-container'>
       <Route path="/">
         <Main/>
-      </Route>
+      </Route> 
 
       <Route path="/clients">
         <Clients clientDB={clientsDB} handleEditClick={handleEditClick}/>
@@ -118,8 +120,12 @@ const handleEditClickRoom = async (roomId: string, event: React.MouseEvent<HTMLA
 
 
       <Route path="/settlements">
-        <Settlements />
+        <Settlements settlementDB={settlementDB} clientsDB={clientsDB} roomsDB={roomsDB} paymentDB={paymentDB}/>
       </Route>
+      <Route path='/createSettlement'>
+        <CreateSettlement data={data}/>
+      </Route>
+
       <Route path="/payments">
         <Payments />
       </Route>
