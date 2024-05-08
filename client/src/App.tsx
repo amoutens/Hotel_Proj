@@ -41,12 +41,18 @@ export interface Payment {
   amount: number,
   payment_date:string
 }
+export interface Data {
+  Rooms: Room[],
+  Clients: Client[],
+  Payments: Payment[],
+  Settlements: Settlement[]
+}
 function App() {
   const [roomsDB, setRoomsDB] = React.useState<Room[]>([]);
   const [clientsDB, setClientsDB] = React.useState<Client[]>([]);
   const [paymentDB, setPaymentDB] = React.useState<Payment[]>([]); 
   const [settlementDB, setSettlementDB] = React.useState<Settlement[]>([]);
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState<Data | undefined>();
 
 const handleEditClick = async (clientId: string, event: React.MouseEvent<HTMLAnchorElement>) => {
   event.preventDefault();

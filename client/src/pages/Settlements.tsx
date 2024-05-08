@@ -14,7 +14,7 @@ export const Settlements = ({settlementDB, clientsDB, roomsDB, paymentDB}:Settle
   const handleDeleteSettlement = (settlId: string): void => {
   const isConfirmed: boolean = confirm(`Ви впевнені, що хочете видалити це поселення?`)
   if (isConfirmed) {
-    axios.delete(`http://localhost:3000/deleteClient/${settlId}`)
+    axios.delete(`http://localhost:3000/deleteSettlement/${settlId}`)
     .then( res => {console.log(res)
       window.location.href = '/settlements';
     })
