@@ -7,10 +7,11 @@ type SettlementsProps = {
   settlementDB: Settlement[],
   clientsDB:Client[],
   roomsDB: Room[],
-  paymentDB: Payment[]
+  paymentDB: Payment[],
+  handleEditClickSettlement: (settlId: string, event: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-export const Settlements = ({settlementDB, clientsDB, roomsDB, paymentDB}:SettlementsProps) => {
+export const Settlements = ({settlementDB, clientsDB, roomsDB, paymentDB, handleEditClickSettlement}:SettlementsProps) => {
   const handleDeleteSettlement = (settlId: string): void => {
   const isConfirmed: boolean = confirm(`Ви впевнені, що хочете видалити це поселення?`)
   if (isConfirmed) {
@@ -44,9 +45,12 @@ export const Settlements = ({settlementDB, clientsDB, roomsDB, paymentDB}:Settle
                   <td>{settl.check_in_date}</td>
                   <td>{settl.check_out_date}</td>
                   <td>
-                  <a href={`/updateClient?settlId=${settl._id}`} onClick={(e) => handleEditClick(settl._id, e)}> 
+                  <a href={`/updateSettlement?settlementId=${settl._id}`} onClick={(e) => handleEditClickSettlement(settl._id, e)}> 
                     Редагувати
                   </a>
+                  {/* <a onClick={(e) => handleEditClickSettlement(settl._id, e)}> 
+                    Редагувати
+                  </a> */}
                     <button onClick={() => handleDeleteSettlement(settl._id)}>Видалити</button>
                     
                   </td>

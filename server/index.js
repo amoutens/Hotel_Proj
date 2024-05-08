@@ -128,6 +128,9 @@ app.delete('/deleteRoom/:id', async (req, res) => {
     }
 });
 
+
+
+
 app.delete('/deleteSettlement/:id', async (req, res) => {
     try {
         const id = req.params.id;
@@ -146,6 +149,44 @@ app.post('/createSettlement', (req, res) => {
     .then(settl => res.json(settl))
     .catch(err => res.json(err))
 })
+
+app.put('/updateSettlement/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const settl = await settlementsModel.findByIdAndUpdate(id, 
+            {client_id: req.body.client_id,
+                payment_id:req.body.payment_id,
+                room_id:req.body.room_id,
+                check_in_date: req.body.check_in_date,
+                check_out_date: req.body.check_out_date
+            });
+        if (!settl) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
+        res.json(settl);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+app.get('/getSettlement/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const settl = await settlementsModel.findById(id);
+        if (!settl) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
+        res.json(settl);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+
+
+
 // app.get('/collections', async (req, res) => {
 //     try {
 //       const collections = await mongoose.connection.db.listCollections().toArray();

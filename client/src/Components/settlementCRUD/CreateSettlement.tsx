@@ -69,7 +69,7 @@ export const CreateSettlement = ({data}) => {
 
       const payOpt = (val: string): void => {
         setInputPay(val);
-        setPayment_id(data.Payments?.find((el: Payment) => el.payment_date === val)?._id)
+        setPayment_id(data.Payments?.find((el: Payment) => el.payment_date === val)?._id || 'Не оплачено')
       }
       const roomOpt = (val: string): void => {
         setInputRoom(val);
@@ -101,7 +101,7 @@ export const CreateSettlement = ({data}) => {
               )}
                <label htmlFor="">Рахунок</label>
               <select value={inputPay} onChange={(e) => payOpt(e.target.value)}>
-                <option>Не оплачено</option>
+                <option value="Не оплачено">Не оплачено</option>
                 {paymentsOpt?.map(payment => (
                   <option key={payment._id} value={payment.payment_date}>{payment.payment_date}</option>
                 ))}
@@ -109,7 +109,7 @@ export const CreateSettlement = ({data}) => {
 
               <label htmlFor="">Номер кімнати</label>
               <select value={inputRoom} onChange={(e) => roomOpt(e.target.value)}>
-                <option>Не визначена</option>
+                <option value="Не визначена">Не визначена</option>
                 {roomsOpt?.map(room => (
                   <option key={room._id} value={room.room_number}>{room.room_number}</option>
                 ))}

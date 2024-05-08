@@ -12,6 +12,7 @@ import { UpdateClient } from './Components/UpdateClient';
 import { CreateRoom } from './Components/roomCRUD/CreateRoom';
 import { UpdateRoom } from './Components/roomCRUD/UpdateRoom';
 import { CreateSettlement } from './Components/settlementCRUD/CreateSettlement';
+import { UpdateSettlement } from './Components/settlementCRUD/UpdateSettlement';
 
  export interface Client {
   _id: string,
@@ -78,6 +79,18 @@ const handleEditClickRoom = async (roomId: string, event: React.MouseEvent<HTMLA
     console.error('Error fetching client data:', error);
   }
 };
+const handleEditClickSettlement = async (settlId: string, event: React.MouseEvent<HTMLAnchorElement>) => {
+  event.preventDefault();
+  try {
+    const res = await fetch(`http://localhost:3000/getSettlement/${settlId}`);
+    if (!res.ok) {
+      throw new Error('Failed to fetch settlement data');
+    }
+    window.location.href = `/updateSettlement?settlementId=${settlId}`;
+  } catch (error) {
+    console.error('Error fetching settlement data:', error);
+  }
+};
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch('http://localhost:3000/');
@@ -126,10 +139,14 @@ const handleEditClickRoom = async (roomId: string, event: React.MouseEvent<HTMLA
 
 
       <Route path="/settlements">
-        <Settlements settlementDB={settlementDB} clientsDB={clientsDB} roomsDB={roomsDB} paymentDB={paymentDB}/>
+        <Settlements settlementDB={settlementDB} clientsDB={clientsDB} roomsDB={roomsDB} paymentDB={paymentDB}
+         handleEditClickSettlement={handleEditClickSettlement}/>
       </Route>
       <Route path='/createSettlement'>
         <CreateSettlement data={data}/>
+      </Route>
+      <Route path='/updateSettlement'>
+        <UpdateSettlement data={data}/>
       </Route>
 
       <Route path="/payments">
