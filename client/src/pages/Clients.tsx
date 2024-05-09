@@ -24,7 +24,12 @@ const handleDeleteClient = (clientId: string): void => {
 
   return (
     <>
-      <div className="client-main-container">
+    <div className="btn-create"><a href='/createClient'>Додати нового клієнта</a>
+    {/* <img className="btn-ed" src="https://img.icons8.com/windows/96/000000/add--v1.png" alt="add--v1"/> */}
+        <Route path='/createClient'>
+          <CreateClient />
+        </Route></div>
+      <div className="main-container">
         <table>
           <thead>
             <tr>
@@ -42,9 +47,9 @@ const handleDeleteClient = (clientId: string): void => {
                 <td>{client.passport}</td>
                 <td>
                 <a href={`/updateClient?clientId=${client._id}`} onClick={(e) => handleEditClick(client._id, e)}> 
-                  Редагувати
+                <img className="btn-ed" src="https://img.icons8.com/windows/96/000000/create-new.png" alt="create-new"/>
                 </a>
-                  <button onClick={() => handleDeleteClient(client._id)}>Видалити</button>
+                  <img className="btn-ed" onClick={() => handleDeleteClient(client._id)} src="https://img.icons8.com/windows/96/000000/trash.png" alt="trash"/>
                   
                 </td>
               </tr>
@@ -52,12 +57,9 @@ const handleDeleteClient = (clientId: string): void => {
             }
           </tbody>
         </table>
-        <a href='/createClient'>Додати нового клієнта</a>
-        <Route path='/createClient'>
-          <CreateClient />
-        </Route>
 
       </div>
+      
     </>
   );
 }

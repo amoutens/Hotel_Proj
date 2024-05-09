@@ -46,12 +46,9 @@ export const Settlements = ({settlementDB, clientsDB, roomsDB, paymentDB, handle
                   <td>{settl.check_out_date}</td>
                   <td>
                   <a href={`/updateSettlement?settlementId=${settl._id}`} onClick={(e) => handleEditClickSettlement(settl._id, e)}> 
-                    Редагувати
+                  <img src="https://img.icons8.com/windows/96/000000/create-new.png" alt="create-new"/>
                   </a>
-                  {/* <a onClick={(e) => handleEditClickSettlement(settl._id, e)}> 
-                    Редагувати
-                  </a> */}
-                    <button onClick={() => handleDeleteSettlement(settl._id)}>Видалити</button>
+                    <button onClick={() => handleDeleteSettlement(settl._id)}><img src="https://img.icons8.com/windows/96/000000/trash.png" alt="trash"/></button>
                     
                   </td>
                 </tr>

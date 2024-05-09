@@ -25,7 +25,13 @@ export const Rooms = ({roomsDB, handleEditClickRoom}: RoomsProps) => {
 
   return (
     <>
-      <div className="client-main-container">
+    <div className='btn-create'>
+    <a href='/createRoom'>Додати нового клієнта</a>
+        <Route path='/createRoom'>
+          <CreateRoom />
+        </Route>
+    </div>
+      <div className="main-container">
         <table>
           <thead>
             <tr>
@@ -45,9 +51,9 @@ export const Rooms = ({roomsDB, handleEditClickRoom}: RoomsProps) => {
                 <td>{room.price}</td>
                 <td>
                 <a href={`/updateRoom?roomId=${room._id}`} onClick={(e) => handleEditClickRoom(room._id, e)}> 
-                  Редагувати
+                <img className='btn-ed' src="https://img.icons8.com/windows/96/000000/create-new.png" alt="create-new"/>
                 </a>
-                  <button onClick={() => handleDeleteRoom(room._id)}>Видалити</button>
+                  <img className='btn-ed' onClick={() => handleDeleteRoom(room._id)} src="https://img.icons8.com/windows/96/000000/trash.png" alt="trash"/>
                   
                 </td>
               </tr>
@@ -55,10 +61,7 @@ export const Rooms = ({roomsDB, handleEditClickRoom}: RoomsProps) => {
             }
           </tbody>
         </table>
-        <a href='/createRoom'>Додати нового клієнта</a>
-        <Route path='/createRoom'>
-          <CreateRoom />
-        </Route>
+        
 
       </div>
     </>
