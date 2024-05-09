@@ -55,8 +55,12 @@ export const CreateSettlement = ({data}) => {
       }
 
       const handleClientInput = (input: string) => {
-        const filteredClients = data?.Clients?.filter((client:Client) => client.name.toLowerCase().includes(input.toLowerCase())) ?? [];
-        setSuggestedClients(filteredClients);
+        if(input.length > 2) {
+          const filteredClients = data?.Clients?.filter((client:Client) => client.name.toLowerCase().includes(input.toLowerCase())) ?? [];
+          setSuggestedClients(filteredClients);
+        }
+        if(input.length === 0) setSuggestedClients([])
+        
       };
       const handleClientSelection = (name: string) => {
         const selectedClient = data?.Clients?.find((el:Client) => el.name === name);

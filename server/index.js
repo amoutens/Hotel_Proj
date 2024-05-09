@@ -21,7 +21,7 @@ app.get('/', async (req, res) => {
     });
     rooms.sort((a, b) => a.room_number - b.room_number);
     const clients = await clientsModel.find().sort({ name: 1 });
-    const payments = await paymentModel.find();
+    const payments = await paymentModel.find().sort({payment_date:1});
     const settlements = await settlementsModel.find().sort({check_in_date:1});
     return res.json({ Rooms: rooms, Clients: clients, Payments: payments, Settlements: settlements });
 })
@@ -186,6 +186,58 @@ app.get('/getSettlement/:id', async (req, res) => {
 
 
 
+
+app.delete('/deletePayment/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const pay = await paymentModel.findByIdAndDelete(id);
+        if (!pay) {
+            return res.status(404).json({ message: 'Settlement not found' });
+        }
+        res.json(pay);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+app.post('/createPayment', (req, res) => {
+    paymentModel.create(req.body)
+    .then(pay => res.json(pay))
+    .catch(err => res.json(err))
+})
+
+app.put('/updatePayment/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const pay = await paymentModel.findByIdAndUpdate(id, 
+            {client_id: req.body.client_id,
+                settlement_id:req.body.settlement_id,
+                amount:req.body.amount,
+                payment_date: req.body.payment_date,
+            });
+        if (!pay) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
+        res.json(pay);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+app.get('/getPayment/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const pay = await paymentModel.findById(id);
+        if (!pay) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
+        res.json(pay);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 
 // app.get('/collections', async (req, res) => {
 //     try {

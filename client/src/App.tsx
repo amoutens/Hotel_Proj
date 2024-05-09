@@ -13,6 +13,8 @@ import { CreateRoom } from './Components/roomCRUD/CreateRoom';
 import { UpdateRoom } from './Components/roomCRUD/UpdateRoom';
 import { CreateSettlement } from './Components/settlementCRUD/CreateSettlement';
 import { UpdateSettlement } from './Components/settlementCRUD/UpdateSettlement';
+import { CreatePayment } from './Components/paymentCRUD/CreatePayment';
+import { UpdatePayment } from './Components/paymentCRUD/UpdatePayment';
 
  export interface Client {
   _id: string,
@@ -91,6 +93,18 @@ const handleEditClickSettlement = async (settlId: string, event: React.MouseEven
     console.error('Error fetching settlement data:', error);
   }
 };
+const handleEditClickPayment = async (payId: string, event: React.MouseEvent<HTMLAnchorElement>) => {
+  event.preventDefault();
+  try {
+    const res = await fetch(`http://localhost:3000/getPayment/${payId}`);
+    if (!res.ok) {
+      throw new Error('Failed to fetch settlement data');
+    }
+    window.location.href = `/updatePayment?paymentId=${payId}`;
+  } catch (error) {
+    console.error('Error fetching settlement data:', error);
+  }
+};
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch('http://localhost:3000/');
@@ -150,10 +164,14 @@ const handleEditClickSettlement = async (settlId: string, event: React.MouseEven
       </Route>
 
       <Route path="/payments">
-        <Payments />
+        <Payments  data={data} handleEditClickPayment={handleEditClickPayment}/>
       </Route>
-      
-
+      <Route path='/createPayment'>
+        <CreatePayment data={data}/>
+      </Route>
+      <Route path='/updatePayment'>
+        <UpdatePayment data={data}/>
+      </Route>
       </div>
       
     </>
