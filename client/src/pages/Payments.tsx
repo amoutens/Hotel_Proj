@@ -16,7 +16,13 @@ export const Payments = ({data, handleEditClickPayment}) => {
   }
       return (
         <>
-          <div className="client-main-container">
+        <div className='btn-create'>
+        <a href='/createPayment'>Додати новий рахунок</a>
+            { <Route path='/createPayment'>
+              <CreatePayment data={data} />
+            </Route> }
+        </div>
+          <div className="main-container">
             <table>
               <thead>
                 <tr>
@@ -36,9 +42,9 @@ export const Payments = ({data, handleEditClickPayment}) => {
                     <td>{pay.payment_date}</td>
                     <td>
                     <a href={`/updatePayment?paymentId=${pay._id}`} onClick={(e) => handleEditClickPayment(pay._id, e)}> 
-                    <img src="https://img.icons8.com/windows/96/000000/create-new.png" alt="create-new"/>
+                    <img className='btn-ed' src="https://img.icons8.com/windows/96/000000/create-new.png" alt="create-new"/>
                     </a>
-                      <button onClick={() => handleDeletePayment(pay._id)}><img src="https://img.icons8.com/windows/96/000000/trash.png" alt="trash"/></button>
+                      <img className="btn-ed" onClick={() => handleDeletePayment(pay._id)} src="https://img.icons8.com/windows/96/000000/trash.png" alt="trash"/>
                       
                     </td>
                   </tr>
@@ -46,10 +52,7 @@ export const Payments = ({data, handleEditClickPayment}) => {
                 }
               </tbody>
             </table>
-            <a href='/createPayment'>Додати новий рахунок</a>
-            { <Route path='/createPayment'>
-              <CreatePayment data={data} />
-            </Route> }
+            
     
           </div>
         </>

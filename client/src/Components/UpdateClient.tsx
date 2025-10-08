@@ -55,7 +55,7 @@ React.useEffect(() => {
   }
   return (
     <>
-    <form style={{width: '100vw', height: '100vh'}} onSubmit={(e) => handleUpdate(e)}>
+    <form  className='form' onSubmit={(e) => handleUpdate(e)}>
           <h2>Редагувати клієнта</h2>
           <label htmlFor="">Ім'я</label>
           <input type="text" placeholder="Введіть ім'я" value={name} onChange={(e) => setName(e.target.value)} />

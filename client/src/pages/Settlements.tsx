@@ -24,7 +24,13 @@ export const Settlements = ({settlementDB, clientsDB, roomsDB, paymentDB, handle
 }
     return (
       <>
-        <div className="client-main-container">
+      <div className='btn-create'>
+      <a href='/createSettlement'>Додати нове поселення</a>
+          { <Route path='/createSettlement'>
+            <CreateSettlement />
+          </Route> }
+      </div>
+        <div className="main-container">
           <table>
             <thead>
               <tr>
@@ -46,9 +52,9 @@ export const Settlements = ({settlementDB, clientsDB, roomsDB, paymentDB, handle
                   <td>{settl.check_out_date}</td>
                   <td>
                   <a href={`/updateSettlement?settlementId=${settl._id}`} onClick={(e) => handleEditClickSettlement(settl._id, e)}> 
-                  <img src="https://img.icons8.com/windows/96/000000/create-new.png" alt="create-new"/>
+                  <img className='btn-ed' src="https://img.icons8.com/windows/96/000000/create-new.png" alt="create-new"/>
                   </a>
-                    <button onClick={() => handleDeleteSettlement(settl._id)}><img src="https://img.icons8.com/windows/96/000000/trash.png" alt="trash"/></button>
+                    <img className='btn-ed' onClick={() => handleDeleteSettlement(settl._id)} src="https://img.icons8.com/windows/96/000000/trash.png" alt="trash"/>
                     
                   </td>
                 </tr>
@@ -56,10 +62,7 @@ export const Settlements = ({settlementDB, clientsDB, roomsDB, paymentDB, handle
               }
             </tbody>
           </table>
-          <a href='/createSettlement'>Додати нове поселення</a>
-          { <Route path='/createSettlement'>
-            <CreateSettlement />
-          </Route> }
+          
   
         </div>
       </>

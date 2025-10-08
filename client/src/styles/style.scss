@@ -35,6 +35,7 @@ body {
     &:hover {
         background-color: lighten(rgb(36, 38, 53), 10%);
         transition: 0.2s;
+        transform: scale(1.1);
     }
     &:active {
         background-color: darken(rgb(36, 38, 53), 10%);

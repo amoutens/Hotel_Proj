@@ -22,7 +22,7 @@ export const CreateRoom = () => {
       }
       return (
         <>
-            <form style={{width: '100vw', height: '100vh'}} onSubmit={(e) => handleSubmit(e)}>
+            <form className='form' onSubmit={(e) => handleSubmit(e)}>
               <h2>Додати кімнату</h2>
               <label htmlFor="">Номер кімнати</label>
               <input type="text" placeholder="Введіть номер кімнати" value={room_number} onChange={(e) => setRoom_number(e.target.value)} />

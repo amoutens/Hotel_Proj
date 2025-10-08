@@ -56,6 +56,7 @@ function App() {
   const [paymentDB, setPaymentDB] = React.useState<Payment[]>([]); 
   const [settlementDB, setSettlementDB] = React.useState<Settlement[]>([]);
   const [data, setData] = React.useState<Data | undefined>();
+  const [info, setInfo] = React.useState(null);
 
 const handleEditClick = async (clientId: string, event: React.MouseEvent<HTMLAnchorElement>) => {
   event.preventDefault();
@@ -117,6 +118,15 @@ const handleEditClickPayment = async (payId: string, event: React.MouseEvent<HTM
     };
     fetchData();
   }, []);
+  const fetchInfo = async () => {
+    try {
+      const res = await fetch('http://localhost:3000/api/info');
+      const data = await res.json();
+      setInfo(data);
+    } catch (error) {
+      console.error('Error fetching info:', error);
+    }
+  };
   return (
     <>
       <div className='navbar-container'>
@@ -125,7 +135,14 @@ const handleEditClickPayment = async (payId: string, event: React.MouseEvent<HTM
         <NavButton href='/rooms' label={"Кімнати"} />
         <NavButton href='/settlements' label={"Поселення"} />
         <NavButton href='/payments' label={"Рахунки"} />
+        <button onClick={fetchInfo}>Показати Інформацію API</button>
       </div>
+      {info && (
+        <div className="info-container">
+          <h2>API Інформація:</h2>
+            <pre>{JSON.stringify(info, null, 2)}</pre>
+        </div>
+      )}
       <div className='main-container'>
       <Route path="/">
         <Main/>

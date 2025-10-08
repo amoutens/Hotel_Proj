@@ -7,11 +7,20 @@ const roomModel = require('./models/Rooms.js')
 const clientsModel = require('./models/Clients.js')
 const paymentModel = require('./models/Payment.js')
 const settlementsModel = require('./models/Settlements.js');
-
+const { graphqlHTTP } = require('express-graphql');
+const schema = require('./graphql/schema');
+const resolvers = require('./graphql/resolvers');
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+app.use('/graphql', graphqlHTTP({
+    schema,
+    rootValue: resolvers,
+    graphiql: true
+}));
+
 connectDB();
 
 app.get('/', async (req, res) => {
@@ -26,6 +35,25 @@ app.get('/', async (req, res) => {
     return res.json({ Rooms: rooms, Clients: clients, Payments: payments, Settlements: settlements });
 })
 
+app.get('/api/info', async (req, res) => {
+    try {
+        const [clients, rooms, settlements, payments] = await Promise.all([
+            clientsModel.find(),
+            roomModel.find(),
+            settlementsModel.find().populate('client_id room_id'),
+          paymentModel.find().populate('client_id')
+        ]);
+    
+        res.json({
+          clients,
+          rooms,
+          settlements,
+          payments
+        });
+      } catch (error) {
+        res.status(500).json({ error: 'Error fetching' });
+      }
+  });
 
 app.get('/getClient/:id', async (req, res) => {
     try {

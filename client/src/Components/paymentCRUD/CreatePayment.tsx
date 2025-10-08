@@ -62,7 +62,7 @@ export const CreatePayment = ({data}) => {
     console.log({"client_id": client_id, 'settl_id': settlement_id, "amount": amount, 'payment_date': payment_date})
     return (
         <>
-          <form style={{ width: '100vw', height: '100vh' }} onSubmit={(e) => handleSubmit(e)}>
+          <form className='form' onSubmit={(e) => handleSubmit(e)}>
             <h2>Додати рахунок</h2>
             <label htmlFor="">Ім'я клієнта</label>
             <input
@@ -77,6 +77,7 @@ export const CreatePayment = ({data}) => {
             />
             {suggestedClients.length > 0 && (
               <ul>
+                <li>Можливо ви мали на увазі: </li>
                 {suggestedClients.slice(0, 2).map(client => (
                   <li key={client._id} onClick={() => handleClientSelection(client.name)}>{client.name}</li>
                 ))}

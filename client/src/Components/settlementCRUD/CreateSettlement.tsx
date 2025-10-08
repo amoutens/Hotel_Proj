@@ -83,7 +83,7 @@ export const CreateSettlement = ({data}) => {
       console.log({"client_id": client_id, 'payment_id': payment_id, "room_id": room_id, 'checkIn': check_in_date, 'checkOut': check_out_date})
       return (
           <>
-            <form style={{ width: '100vw', height: '100vh' }} onSubmit={(e) => handleSubmit(e)}>
+            <form className='form' onSubmit={(e) => handleSubmit(e)}>
               <h2>Додати поселення</h2>
               <label htmlFor="">Ім'я клієнта</label>
               <input
@@ -98,6 +98,7 @@ export const CreateSettlement = ({data}) => {
               />
               {suggestedClients.length > 0 && (
                 <ul>
+                  <li>Можливо ви мали на увазі: </li>
                   {suggestedClients.slice(0, 2).map(client => (
                     <li key={client._id} onClick={() => handleClientSelection(client.name)}>{client.name}</li>
                   ))}

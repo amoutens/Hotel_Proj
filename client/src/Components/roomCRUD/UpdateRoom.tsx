@@ -52,7 +52,7 @@ export const UpdateRoom = () => {
       }
       return (
         <>
-            <form style={{width: '100vw', height: '100vh'}} onSubmit={(e) => handleUpdate(e)}>
+            <form className='form' onSubmit={(e) => handleUpdate(e)}>
               <h2>Редагувати кімнату</h2>
               <label htmlFor="">Номер кімнати</label>
               <input type="text" placeholder="Введіть номер кімнати" value={room_number} onChange={(e) => setRoom_number(e.target.value)} />

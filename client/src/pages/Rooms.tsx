@@ -26,7 +26,7 @@ export const Rooms = ({roomsDB, handleEditClickRoom}: RoomsProps) => {
   return (
     <>
     <div className='btn-create'>
-    <a href='/createRoom'>Додати нового клієнта</a>
+    <a href='/createRoom'>Додати нову кімнату</a>
         <Route path='/createRoom'>
           <CreateRoom />
         </Route>

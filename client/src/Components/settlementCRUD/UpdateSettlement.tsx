@@ -25,9 +25,6 @@ export const UpdateSettlement = ({data}) => {
     });
 
     const [suggestedClients, setSuggestedClients] = React.useState<Client[]>([]);
-    // const [inputName, setInputName] = React.useState<string>(settlGetData?.client_id ? clientsDB.find((el: Client) => settlGetData.client_id === el._id).name : '');
-    // const [inputPay, setInputPay] = React.useState<string>(settlGetData?.payment_id ? data?.Payments?.find((el: Payment) => settlGetData.payment_id === el._id).payment_date : '');
-    // const [inputRoom, setInputRoom] = React.useState<string>(settlGetData?.room_id ? data?.Rooms?.find((el: Room) => settlGetData.room_id === el._id).room_number : '');
     const [inputName, setInputName] = React.useState<string>('')
     const [inputPay, setInputPay] = React.useState<string>('')
     const [inputRoom, setInputRoom] = React.useState<string>('')
@@ -138,7 +135,7 @@ export const UpdateSettlement = ({data}) => {
       console.log({"name": inputName, 'payment': inputPay, "room": inputRoom})
       return (
           <>
-            <form style={{ width: '100vw', height: '100vh' }} onSubmit={(e) => handleUpdate(e)}>
+            <form className='form' onSubmit={(e) => handleUpdate(e)}>
               <h2>Редагувати поселення</h2>
               <label htmlFor="">Ім'я клієнта</label>
               <input
@@ -152,6 +149,7 @@ export const UpdateSettlement = ({data}) => {
               />
               {suggestedClients.length > 0 && (
                 <ul>
+                  <li>Можливо ви мали на увазі: </li>
                   {suggestedClients.slice(0, 2).map(client => (
                     <li key={client._id} onClick={() => handleClientSelection(client.name)}>{client.name}</li>
                   ))}

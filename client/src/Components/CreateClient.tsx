@@ -25,7 +25,7 @@ const [passport, setPassport] = React.useState('');
   }
   return (
     <>
-        <form style={{width: '100vw', height: '100vh'}} onSubmit={(e) => handleSubmit(e)}>
+        <form className='form' onSubmit={(e) => handleSubmit(e)}>
           <h2>Додати клієнта</h2>
           <label htmlFor="">Ім'я</label>
           <input type="text" placeholder="Введіть ім'я" value={name} onChange={(e) => setName(e.target.value)} />
